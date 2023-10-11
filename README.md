@@ -60,13 +60,16 @@ Salon Beauty Booking System
 
 
 1- return  only customer with email “husseinx.com” for booking list in /stylist api
+
+*** localhost:8080/stylist1
+
 2- return set  customer’s names in all of bookings
+
+*** localhost:8080/stylist2
+
 3- hash map for every customer with its phone nember
 
-
-1- localhost:8080/stylist1
-2- localhost:8080/stylist2
-3- localhost:8080/stylist3
+*** localhost:8080/stylist3
 
 
 
