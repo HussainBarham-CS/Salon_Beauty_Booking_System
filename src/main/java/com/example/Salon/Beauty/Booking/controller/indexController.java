@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.*;
 
 
@@ -70,25 +67,38 @@ public class indexController {
     }
 
     @RequestMapping(value="/stylist2",method = RequestMethod.POST)
-    public ResponseEntity<List<Customer>> stylist2(@RequestBody @Valid Stylist stylist) {
+    public ResponseEntity<Set<String>> stylist2(@RequestBody @Valid Stylist stylist) {
 
-        List<Customer> temp1 = stylist.getBookings().stream().map(Booking::getCustomer).collect(Collectors.toList());
+        Set<String> temp1 = stylist.getBookings().stream().map(e->e.getCustomer().getName()).collect(Collectors.toSet());
 
         return new ResponseEntity<>(temp1, HttpStatus.ACCEPTED);
 
     }
 
     @RequestMapping(value="/stylist3",method = RequestMethod.POST)
-    public ResponseEntity<HashMap<String, Integer>> stylist3(@RequestBody @Valid Stylist stylist) {
+    public ResponseEntity<HashMap<String, String>> stylist3(@RequestBody @Valid Stylist stylist) {
 
         List<Customer> temp1 = stylist.getBookings().stream().map(Booking::getCustomer).collect(Collectors.toList());
 
-        HashMap<String, Integer> hashMap = new HashMap<>();
 
-        for(int i=0;i< temp1.size();i++)
-        {
-            hashMap.put(temp1.get(i).getName(),Integer.parseInt(temp1.get(i).getPhone()));
-        }
+        /** @Params
+         * if you want use foreach
+         * HashMap<String, String> hashMap = new HashMap<>();
+         * temp1.forEach(e -> hashMap.put(e.getName(), e.getPhone()));
+         * */
+
+
+        /** @Params2
+         * if you want use another way its nice
+         */
+
+
+        HashMap<String, String> hashMap = (HashMap<String, String>) temp1.stream()
+                .collect(Collectors.toMap(
+                        Customer::getName,
+                        Customer::getPhone
+                ));
+
 
         return new ResponseEntity<>(hashMap, HttpStatus.ACCEPTED);
 
